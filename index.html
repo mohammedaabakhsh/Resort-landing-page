@@ -86,6 +86,19 @@
     display:flex;flex-direction:column;
   }
   .cabin-img{height:230px;position:relative;}
+
+  /* CABIN PHOTO GALLERY */
+  .cabin-gallery{position:relative;}
+  .gallery-main{height:230px;position:relative;}
+  .gallery-thumbs{
+    display:flex;gap:3px;padding:3px;background:#fff;
+  }
+  .gallery-thumbs img{
+    width:16.6666%;height:52px;object-fit:cover;border-radius:4px;
+    cursor:pointer;opacity:.55;transition:opacity .15s;
+  }
+  .gallery-thumbs img.active{opacity:1;outline:2px solid var(--gold);}
+  .gallery-thumbs img:hover{opacity:.85;}
   .cabin-price{
     position:absolute;bottom:14px;left:14px;background:var(--dark);color:var(--gold);
     padding:8px 16px;border-radius:4px;font-weight:700;font-size:14px;
@@ -202,6 +215,8 @@
 
     .cabins{gap:20px;}
     .cabin-img{height:190px;}
+    .gallery-main{height:190px;}
+    .gallery-thumbs img{height:42px;}
     .cabin-body{padding:18px;}
     .cabin-body h3{font-size:19px;}
     .cabin-footer{flex-direction:column;}
@@ -275,9 +290,19 @@
   <div class="cabins">
 
     <div class="cabin-card">
-      <div class="cabin-img">
-        <img src="https://picsum.photos/id/1039/700/500" alt="كوخ الغابة">
-        <span class="cabin-price">450 ر.س / الليلة</span>
+      <div class="cabin-gallery">
+        <div class="gallery-main">
+          <img id="forest-main-img" src="https://picsum.photos/id/1039/700/500" alt="كوخ الغابة">
+          <span class="cabin-price">450 ر.س / الليلة</span>
+        </div>
+        <div class="gallery-thumbs">
+          <img src="https://picsum.photos/id/1039/160/120" data-full="https://picsum.photos/id/1039/700/500" class="active" onclick="switchGallery(this,'forest-main-img')" alt="صورة 1">
+          <img src="https://picsum.photos/id/1041/160/120" data-full="https://picsum.photos/id/1041/700/500" onclick="switchGallery(this,'forest-main-img')" alt="صورة 2">
+          <img src="https://picsum.photos/id/1044/160/120" data-full="https://picsum.photos/id/1044/700/500" onclick="switchGallery(this,'forest-main-img')" alt="صورة 3">
+          <img src="https://picsum.photos/id/1050/160/120" data-full="https://picsum.photos/id/1050/700/500" onclick="switchGallery(this,'forest-main-img')" alt="صورة 4">
+          <img src="https://picsum.photos/id/1057/160/120" data-full="https://picsum.photos/id/1057/700/500" onclick="switchGallery(this,'forest-main-img')" alt="صورة 5">
+          <img src="https://picsum.photos/id/1060/160/120" data-full="https://picsum.photos/id/1060/700/500" onclick="switchGallery(this,'forest-main-img')" alt="صورة 6">
+        </div>
       </div>
       <div class="cabin-body">
         <h3>كوخ الغابة</h3>
@@ -489,6 +514,13 @@
       openDetails(el.dataset.title, el.dataset.details);
     });
   });
+
+  function switchGallery(thumb, mainImgId){
+    document.getElementById(mainImgId).src = thumb.dataset.full;
+    var siblings = thumb.parentElement.querySelectorAll('img');
+    siblings.forEach(function(s){ s.classList.remove('active'); });
+    thumb.classList.add('active');
+  }
 
   document.getElementById('modalClose').addEventListener('click', closeDetails);
   modal.addEventListener('click', function(e){
